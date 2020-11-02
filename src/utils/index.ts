@@ -14,3 +14,10 @@ export function shuffleArray<Card>(array: number[]) {
   }
   return shuffledArray;
 }
+
+export function mlsToMinutesAndSeconds<GameTime>(mls: number) {
+  const minutes = Number(Math.floor(mls / 60000));
+  const seconds = Number(((mls % 60000) / 1000).toFixed(0));
+
+  return { seconds, minutes };
+}

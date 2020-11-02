@@ -17,60 +17,19 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions } from 'vuex';
 
 export default {
-  data: () => ({
-    open: [],
-  }),
   methods: {
     ...mapMutations(['shuffleCards', 'handleMatchCard']),
-    handleClick(card) {
-      if (!this.isPairOpen) this.open.push(card);
-    },
-
-    onMatchCards() {
-      this.open.forEach(({ id }) => this.handleMatchCard(id));
-      this.open = [];
-    },
-
-    onUnmatch() {
-      setTimeout(() => {
-        this.open = [];
-      }, 1000);
-    },
+    ...mapActions(['handleClick']),
   },
   beforeMount() {
     this.shuffleCards();
   },
-  watch: {
-    open: {
-      deep: true,
-      handler() {
-        if (this.isPairOpen) {
-          if (this.isCardsMatch) {
-            this.onMatchCards();
-          } else {
-            this.onUnmatch();
-          }
-        }
-      },
-    },
-  },
+
   computed: {
-    ...mapGetters(['shuffledCards']),
-
-    isPairOpen() {
-      return this.open.length === 2;
-    },
-
-    openCardIds() {
-      return this.open.map(({ id }) => id);
-    },
-
-    isCardsMatch() {
-      return this.isPairOpen && this.open[0].value === this.open[1].value;
-    },
+    ...mapGetters(['shuffledCards', 'openCardIds', 'isPairOpen']),
   },
 };
 </script>
@@ -100,7 +59,6 @@ export default {
 .card-open {
   background: #02b3e4;
   cursor: default;
-  pointer-events: none;
   font-size: 24px;
   animation-name: flip;
   animation-duration: 0.8s;
