@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <div
-      v-for="{ id, value, matched } in shuffledCards"
+      v-for="{ id, value, matched } in cards"
       :key="id"
       @click="handleClick({ id, value, matched })"
       class="card"
@@ -13,13 +13,17 @@
     >
       <span v-html="value" />
     </div>
+
+    <Modal v-if="isModalActive" />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations, mapActions } from 'vuex';
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex';
+import Modal from './Modal.vue';
 
 export default {
+  components: { Modal },
   methods: {
     ...mapMutations(['shuffleCards', 'handleMatchCard']),
     ...mapActions(['handleClick']),
@@ -29,7 +33,8 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['shuffledCards', 'openCardIds', 'isPairOpen']),
+    ...mapGetters(['openCardIds', 'isPairOpen']),
+    ...mapState(['isModalActive', 'cards']),
   },
 };
 </script>

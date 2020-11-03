@@ -22,27 +22,12 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters, mapMutations } from 'vuex';
-import * as C from '../utils/constants';
+import { mapGetters, mapMutations, mapState } from 'vuex';
 
 const Header = defineComponent({
   computed: {
-    ...mapGetters(['moves', 'gameTime']),
-    gameLevel() {
-      let startAmount;
-      if (this.moves <= C.MIN_PRO_LEVEL) {
-        startAmount = C.PRO_STARS;
-      } else if (
-        this.moves > C.MIN_MEDIUM_LEVEL &&
-        this.moves <= C.MAX_MEDIUM_LEVEL
-      ) {
-        startAmount = C.MID_STARS;
-      } else if (this.moves > C.MAX_MEDIUM_LEVEL) {
-        startAmount = C.BEGINNER_STARS;
-      }
-
-      return startAmount;
-    },
+    ...mapGetters(['gameLevel']),
+    ...mapState(['moves', 'gameTime']),
   },
   methods: {
     ...mapMutations(['restart']),
