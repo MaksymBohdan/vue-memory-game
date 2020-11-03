@@ -18,5 +18,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'no-plusplus': 'off',
     'no-param-reassign': 'off',
+    'arrow-body-style': 'off',
+    'object-curly-newline': 'off',
+    'operator-linebreak': 'off',
   },
 };

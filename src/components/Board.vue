@@ -1,7 +1,7 @@
 <template>
   <div class="board">
     <div
-      v-for="{ id, value, matched } in shuffledCards"
+      v-for="{ id, value, matched } in cards"
       :key="id"
       @click="handleClick({ id, value, matched })"
       class="card"
@@ -11,66 +11,30 @@
         'card-unmatch': isPairOpen && openCardIds.includes(id) && !matched,
       }"
     >
-      card {{ value }}
+      <span v-html="value" />
     </div>
+
+    <Modal v-if="isModalActive" />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapMutations } from 'vuex';
+import { mapGetters, mapMutations, mapActions, mapState } from 'vuex';
+import Modal from './Modal.vue';
 
 export default {
-  data: () => ({
-    open: [],
-  }),
+  components: { Modal },
   methods: {
     ...mapMutations(['shuffleCards', 'handleMatchCard']),
-    handleClick(card) {
-      if (!this.isPairOpen) this.open.push(card);
-    },
-
-    onMatchCards() {
-      this.open.forEach(({ id }) => this.handleMatchCard(id));
-      this.open = [];
-    },
-
-    onUnmatch() {
-      setTimeout(() => {
-        this.open = [];
-      }, 1000);
-    },
+    ...mapActions(['handleClick']),
   },
   beforeMount() {
     this.shuffleCards();
   },
-  watch: {
-    open: {
-      deep: true,
-      handler() {
-        if (this.isPairOpen) {
-          if (this.isCardsMatch) {
-            this.onMatchCards();
-          } else {
-            this.onUnmatch();
-          }
-        }
-      },
-    },
-  },
+
   computed: {
-    ...mapGetters(['shuffledCards']),
-
-    isPairOpen() {
-      return this.open.length === 2;
-    },
-
-    openCardIds() {
-      return this.open.map(({ id }) => id);
-    },
-
-    isCardsMatch() {
-      return this.isPairOpen && this.open[0].value === this.open[1].value;
-    },
+    ...mapGetters(['openCardIds', 'isPairOpen']),
+    ...mapState(['isModalActive', 'cards']),
   },
 };
 </script>
@@ -87,21 +51,24 @@ export default {
   grid-column-gap: 15px;
   grid-row-gap: 15px;
   user-select: none;
+  border-radius: 10px;
 }
 
 .card {
-  height: 100px;
+  height: 120px;
+  line-height: 120px;
   background: #141214;
   color: #ffffff;
   font-size: 0;
   cursor: pointer;
+  text-align: center;
+  border-radius: 10px;
 }
 
 .card-open {
   background: #02b3e4;
   cursor: default;
-  pointer-events: none;
-  font-size: 24px;
+  font-size: 50px;
   animation-name: flip;
   animation-duration: 0.8s;
   pointer-events: none;
@@ -110,7 +77,7 @@ export default {
 .card-match {
   background: #e5f720;
   cursor: default;
-  font-size: 24px;
+  font-size: 50px;
   animation-name: rubberBand;
   animation-duration: 0.8s;
   outline: 1px solid transparent;
@@ -188,7 +155,7 @@ export default {
   }
 
   50% {
-    transform: scale3d(1.2, 1.2, 1.2);
+    transform: scale3d(1.1, 1.1, 1.1);
   }
 
   to {

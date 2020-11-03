@@ -1,5 +1,10 @@
 export type Card = {
-  value: number;
+  value: string;
   id: number;
   matched: boolean;
+};
+
+export type GameTime = {
+  minutes: number;
+  seconds: number;
 };
