@@ -20,5 +20,6 @@ module.exports = {
     'no-param-reassign': 'off',
     'arrow-body-style': 'off',
     'object-curly-newline': 'off',
+    'operator-linebreak': 'off',
   },
 };

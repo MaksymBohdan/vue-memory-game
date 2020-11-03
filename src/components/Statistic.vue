@@ -23,18 +23,22 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { mapGetters, mapMutations } from 'vuex';
+import * as C from '../utils/constants';
 
 const Header = defineComponent({
   computed: {
     ...mapGetters(['moves', 'gameTime']),
     gameLevel() {
       let startAmount;
-      if (this.moves <= 7) {
-        startAmount = 3;
-      } else if (this.moves > 7 && this.moves <= 10) {
-        startAmount = 2;
-      } else if (this.moves > 10) {
-        startAmount = 1;
+      if (this.moves <= C.MIN_PRO_LEVEL) {
+        startAmount = C.PRO_STARS;
+      } else if (
+        this.moves > C.MIN_MEDIUM_LEVEL &&
+        this.moves <= C.MAX_MEDIUM_LEVEL
+      ) {
+        startAmount = C.MID_STARS;
+      } else if (this.moves > C.MAX_MEDIUM_LEVEL) {
+        startAmount = C.BEGINNER_STARS;
       }
 
       return startAmount;

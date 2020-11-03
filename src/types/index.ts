@@ -1,5 +1,5 @@
 export type Card = {
-  value: number;
+  value: string;
   id: number;
   matched: boolean;
 };

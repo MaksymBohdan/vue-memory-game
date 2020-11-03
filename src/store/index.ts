@@ -2,7 +2,16 @@ import { createStore } from 'vuex';
 import { mlsToMinutesAndSeconds, shuffleArray } from '@/utils';
 import { Card, GameTime } from '@/types';
 
-const initCards = [1, 3, 2, 4, 5, 6];
+const initCards = [
+  '&#128023;',
+  '&#128028;',
+  '&#128031;',
+  '&#128034;',
+  '&#128039;',
+  '&#128045;',
+  '&#128047;',
+  '&#128056;',
+];
 
 type State = {
   cards: Card[];

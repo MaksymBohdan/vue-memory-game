@@ -1,4 +1,4 @@
-export function shuffleArray<Card>(array: number[]) {
+export function shuffleArray<Card>(array: string[]) {
   const shuffledArray = array.concat(array).map((card, idx) => ({
     value: card,
     id: idx,
